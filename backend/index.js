@@ -1,5 +1,16 @@
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const http = require('http');
+
+
 const yargs = require("yargs");
 const { hideBin } = require("yargs/helpers"); //read arguments
+
+dotenv.config();
+
 
 const { initRepo } = require("./controllers/init.js");
 const { addRepo } = require("./controllers/add.js");
@@ -27,7 +38,7 @@ yargs(hideBin(process.argv))
     }, (argv) => {
         commitRepo(argv.message);
     })
-    .command('push', "push commites to S3", {}, pushRepo)
+    .command('push', "push commits to S3", {}, pushRepo)
     .command('pull', "pull commits from S3", {}, pullRepo)
     .command('revert <commitId>', "revert to a previous commit", (yargs) => {
         yargs.positional("commitId", {
@@ -43,4 +54,16 @@ yargs(hideBin(process.argv))
 // Function to start the server
 function startServer() {
     console.log("server logic called");
+    const app = express();
+    const port = process.env.PORT||3000;
+
+    app.use(bodyParser.json());
+    app.use(express.json());
+
+    const mongoURI = process.env.MONGO_URI;
+    mongoose.connect(mongoURI).then(()=>{
+        console.log('mongoDB connected !');
+    }).catch((err)=>{
+        console.error("Unable to connect", err);
+    });
 }
