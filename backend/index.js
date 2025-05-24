@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const http = require('http');
 const { Server } = require("socket.io");
-const mainRouter = require('./routes/main.router.js')
 
 
 const yargs = require("yargs");
@@ -66,12 +65,14 @@ function startServer() {
     mongoose.connect(mongoURI).then(() => {
         console.log('mongoDB connected !');
     }).catch((err) => {
-        console.error("Unable to connect to MongoDB", err);
+        console.error("Unable to connect", err);
     });
 
     app.use(cors({ origin: "*" }));
 
-    app.use("/", mainRouter);
+    app.get("/", (req, res) => {
+        res.send("Welcome !");
+    });
 
     let user = "test";
     const httpServer = http.createServer(app);
