@@ -57,8 +57,28 @@ async function signup(req, res){
     }
 };
 
-const login = (req, res) => {
-    res.send("logging in");
+async function login(req, res){
+    const {email,password}=req.body;
+    try{
+        await connectClient();
+        const db = client.db("githubclone");
+        const usersCollection = db.collection("users");
+
+        const user = await usersCollection.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch){
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        const token = jwt.sign({id:user._id}, process.env.JWT_SECRET_KEY,{expiresIn:"1hr"});
+        res.json({token, userId:user._id});
+    }catch(err){
+        console.error("Error during login:", err.message);
+        res.status(500).send("server error !");
+    }
 };
 
 const getUserProfile = (req, res) => {
