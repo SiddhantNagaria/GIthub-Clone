@@ -88,7 +88,7 @@ async function updateRepositoryById(req, res) {
     try {
         const repository = await Repository.findById(id);
 
-        if (!repositories || repositories.length == 0) {
+        if (!repository) {
             return res.status(404).json({ error: "user repositories not found" });
         }
         repository.content.push(content);
@@ -110,12 +110,13 @@ async function toggleVisibilityById(req, res) {
     try {
         const repository = await Repository.findById(id);
 
-        if (!repositories || repositories.length == 0) {
+        if (!repository) {
             return res.status(404).json({ error: "user repositories not found" });
         }
         repository.visibility = !repository.visibility
 
         const updatedRepository = await Repository.save();
+        
         res.json({
             message: "Repository visibility toggled successfully",
             repository: updatedRepository
@@ -127,7 +128,19 @@ async function toggleVisibilityById(req, res) {
 };
 
 async function deleteRepositoryById(req, res) {
-    res.send("repository Deleted");
+    const { id } = req.params;
+    try {
+        const repository = await Repository.findOneAndDelete(id);
+
+        if (!repository) {
+            return res.status(404).json({ error: "user repositories not found" });
+        }
+
+        res.json({ message: "repository deleted successfully" });
+    } catch (err) {
+        console.error("Error during toggling visibility:", err.message);
+        res.status(500).send("server error !");
+    }
 };
 
 module.exports = {
