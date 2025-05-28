@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
-import { useNavigate, useRoutes } from 'react-router-dom';
+import { useNavigate, useRoutes } from 'react-router-dom'
 
-//pages
+// Pages
 import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/user/Profile";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 
-//authContext
-
-import { useAuth } from './authContext';
+// Auth Context
+import { useAuth } from "./authContext";
 
 const ProjectRoutes = () => {
     const { currentUser, setCurrentUser } = useAuth();
