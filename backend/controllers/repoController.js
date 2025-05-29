@@ -67,19 +67,22 @@ async function fetchRespositoryByName(req, res) {
     }
 };
 
-async function fetchRespositoryForCurrentUser(req, res) {
-    const userId = req.user;
-    try {
-        const repositories = await Repository.find({ owner: userId });
+async function fetchRepositoriesForCurrentUser(req, res) {
+  console.log(req.params);
+  const { userID } = req.params;
 
-        if (!repositories || repositories.length == 0) {
-            return res.status(404).json({ error: "user repositories not found" });
-        }
-        res.json({ message: "repositories found!", repositories });
-    } catch (err) {
-        console.error("Error during fetching user repository :", err.message);
-        res.status(500).send("server error !");
+  try {
+    const repositories = await Repository.find({ owner: userID });
+
+    if (!repositories || repositories.length == 0) {
+      return res.status(404).json({ error: "User Repositories not found!" });
     }
+    console.log(repositories);
+    res.json({ message: "Repositories found!", repositories });
+  } catch (err) {
+    console.error("Error during fetching user repositories : ", err.message);
+    res.status(500).send("Server error");
+  }
 }
 
 async function updateRepositoryById(req, res) {
@@ -148,7 +151,7 @@ module.exports = {
     deleteRepositoryById,
     fetchRespositoryById,
     fetchRespositoryByName,
-    fetchRespositoryForCurrentUser,
+    fetchRepositoriesForCurrentUser,
     getALlRepositories,
     toggleVisibilityById,
     updateRepositoryById
