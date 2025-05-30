@@ -1,0 +1,48 @@
+body {
+  background-color: #0d1117;
+  color: #c9d1d9;
+}
+
+.profile-nav {
+  width: 100%;
+  padding: 0 32px;
+  background-color: #0d1117;
+}
+
+.profile-tabs .nav-link {
+  color: #c9d1d9;
+  font-weight: 500;
+}
+
+.profile-tabs .nav-link.active {
+  border-bottom: 2px solid #f78166;
+  color: #f78166;
+}
+
+.profile-tabs .nav-link:hover {
+  color: black;
+}
+
+.profile-container {
+  display: flex;
+  padding: 40px 32px;
+  gap: 64px;
+}
+
+.profile-left {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-right {
+  flex-grow: 1;
+}
+
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: grey;
+}
