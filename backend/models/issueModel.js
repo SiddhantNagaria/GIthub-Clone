@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 const { required } = require("yargs");
 
 const IssueSchema = new Schema({
+    timestamps: true,
     title: {
         type: String,
         required: true,
