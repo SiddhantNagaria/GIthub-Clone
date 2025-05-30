@@ -76,8 +76,8 @@ const Profile = () => {
                     setCurrentUser(null);
                     window.location.href = "/auth";
                 }}
-                className="btn btn-dark position-fixed"
-                style={{ bottom: "40px", right: "40px" }}
+                className="btn btn-dark position-relative"
+                style={{ bottom: "50px", right: "50px" }}
             >
                 Logout
             </button>
